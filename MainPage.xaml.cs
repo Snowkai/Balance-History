@@ -2,23 +2,26 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+
 
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private List<string> Categories = new List<string>() { "Food", "Transport", "Mobile", "Internet", "Entertainment" };
+
+        public void AddCategory(string category)
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            Categories.Add(category);
         }
+        public void RemoveCategory(string category)
+        {
+            Categories.Remove(category);
+        }
+        public void SendRecord() { }
+        public void ReceiveRecord() { }
+        public void DeleteRecord() { }
+        public void GetReport() { }
     }
 }
