@@ -18,19 +18,11 @@
                         Text="Remove Record"></Button>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout
-                    Margin="15,0">
-                    <Button
-                        Text="Add Category"></Button>
-                    <Button
-                        Text="Remove Category"></Button>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout
                     Margin="15,0,0,0">
                     <Button
                         Text="Report"></Button>
                 </HorizontalStackLayout>
             </HorizontalStackLayout>
-
         </VerticalStackLayout>
     </ScrollView>
 
