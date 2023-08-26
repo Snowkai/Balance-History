@@ -1,4 +1,6 @@
-﻿namespace Balance_History
+﻿using Balance_History.src;
+
+namespace Balance_History
 {
     public partial class App : Application
     {
@@ -8,5 +10,6 @@
 
             MainPage = new AppShell();
         }
+        
     }
 }

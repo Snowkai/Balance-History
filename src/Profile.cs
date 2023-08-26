@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Balance_History.src
 {
-    class Profile
+    internal class Profile
     {
-        public string NameProfile { get; set; }
-        public Profile() { }
+        public string Name { get; set; }
+        public string DBName { get; set; }
+        public Profile(string name) {
+            Name = name;
+            DBName = name + ".db";
+        }
     }
 }

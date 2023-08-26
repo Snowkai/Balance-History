@@ -8,7 +8,8 @@
             Spacing="0"
             Padding="0"
             VerticalOptions="Start">
-            <HorizontalStackLayout>
+            <HorizontalStackLayout
+                HorizontalOptions="Fill">
                 <HorizontalStackLayout
                     Margin="0,0,15,0">
                     <Button
@@ -21,6 +22,13 @@
                     Margin="15,0,0,0">
                     <Button
                         Text="Report"></Button>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    Margin="15,0,0,0"
+                    HorizontalOptions="End">
+                    <Button
+                        Text="Profiles"
+                        Clicked="BackToProfiles"></Button>
                 </HorizontalStackLayout>
             </HorizontalStackLayout>
         </VerticalStackLayout>
