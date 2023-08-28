@@ -6,7 +6,7 @@
     <VerticalStackLayout
         BackgroundColor="#282828">
         <Border
-            Margin="100"
+            Margin="10"
             WidthRequest="350"
             HeightRequest="500"            
             BackgroundColor="#464646">
@@ -17,14 +17,24 @@
                 x:Name="button_set">
                 <Button
                 CornerRadius="10"
-                VerticalOptions="Start"
                 Text="+ Create your profile"
                 TextColor="WhiteSmoke"
                 FontSize="Medium"
                 FontAttributes="Bold"
                 HeightRequest="100"
-                Clicked="CreateForm" BackgroundColor="#6C6C6C"/>
+                Clicked="CreateForm" 
+                BackgroundColor="#6C6C6C"/>
             </StackLayout>
         </Border>
+        <Button
+            x:Name="Delete"
+            Text="Delete"
+            TextColor="WhiteSmoke"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            HeightRequest="10"
+            WidthRequest="150"
+            BackgroundColor="#6C6C6C"
+            Clicked="DeleteProfile"/>
     </VerticalStackLayout>
 </ContentPage>
