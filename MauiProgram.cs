@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Balance_History.src;
+using Microsoft.Extensions.Logging;
 
 namespace Balance_History
 {
@@ -16,7 +17,8 @@ namespace Balance_History
                 });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
+            builder.Services.AddSingleton<DBActions>();
 #endif
 
             return builder.Build();

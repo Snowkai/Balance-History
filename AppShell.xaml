@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
     
     <ShellContent
-        Title="Profiles"
+        Title="StartPage"
         ContentTemplate="{DataTemplate local:StartPage}"
         Route="StartPage" />
     <ShellContent

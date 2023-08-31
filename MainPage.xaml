@@ -5,18 +5,27 @@
 
     <ScrollView>
         <VerticalStackLayout
+            x:Name="root"
             Spacing="0"
-            Padding="0"
+            Padding="20"
             VerticalOptions="Start">
             <HorizontalStackLayout
+                x:Name="panel"
                 HorizontalOptions="Fill">
                 <HorizontalStackLayout
                     Margin="0,0,15,0">
                     <Button
-                        Text="Add Record">
+                        Text="Add Record"
+                        Clicked="AddRecord">
                     </Button>
                     <Button
                         Text="Remove Record"></Button>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    Margin="15,0,0,0">
+                    <Button
+                        Text="Category"
+                        Clicked="EditCategory"></Button>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout
                     Margin="15,0,0,0">
@@ -31,6 +40,59 @@
                         Clicked="BackToProfiles"></Button>
                 </HorizontalStackLayout>
             </HorizontalStackLayout>
+            <VerticalStackLayout
+                x:Name="category"
+                IsVisible="false">
+                <HorizontalStackLayout>
+                <Button
+                    Text="Add Category"
+                    HeightRequest="40"
+                    WidthRequest="150"
+                    Clicked="AddCategory"></Button>
+                <Button
+                    Text="Remove Category"
+                    HeightRequest="40"
+                    WidthRequest="150"
+                    Clicked="RemoveCategory"></Button>
+                </HorizontalStackLayout>
+                <ListView x:Name="categoryList"></ListView>
+            </VerticalStackLayout>
+            <VerticalStackLayout
+                x:Name="recordView"
+                IsVisible="false">
+                <HorizontalStackLayout
+                    HorizontalOptions="Fill">
+                    <VerticalStackLayout
+                        Padding="15">
+                        <Label Text="Category"></Label>
+                    <Picker
+                        x:Name="pickCategory"
+                        FontAutoScalingEnabled="True"
+                        ></Picker>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Padding="15">
+                        <Label Text="Price"></Label>
+                        <Entry
+                            x:Name="entPrice"
+                            WidthRequest="100"></Entry>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Padding="15">
+                        <Label Text="Comment"></Label>
+                        <Entry x:Name="entComment"
+                               WidthRequest="500"></Entry>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Padding="15">
+                        <Button
+                            Text="Done"
+                            Clicked="RecordDone"></Button>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            <ListView
+                x:Name="viewTable"></ListView>
         </VerticalStackLayout>
     </ScrollView>
 
