@@ -81,31 +81,40 @@
                     <HorizontalStackLayout
                     HorizontalOptions="Fill">
                         <VerticalStackLayout
-                        Padding="15">
+                            Padding="15">
+                            <Label Text="Data"></Label>
+                            <DatePicker
+                                x:Name ="dataRecord"
+                                Date="{Binding OperatingRecord.data}"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
+                                    Padding="15">
                             <Label Text="Category"></Label>
                             <Picker
-                        x:Name="pickCategory"
-                        FontAutoScalingEnabled="True"
-                        ></Picker>
+                                    x:Name="pickCategory"
+                                    FontAutoScalingEnabled="True"
+                                    SelectedItem="{Binding OperatingRecord.Category}"/>
                         </VerticalStackLayout>
                         <VerticalStackLayout
                         Padding="15">
                             <Label Text="Price"></Label>
                             <Entry
-                            x:Name="entPrice"
-                            WidthRequest="100"></Entry>
+                                x:Name="entPrice"
+                                WidthRequest="100"
+                                Text="{Binding OperatingRecord.Price}"></Entry>
                         </VerticalStackLayout>
                         <VerticalStackLayout
-                        Padding="15">
+                            Padding="15">
                             <Label Text="Comment"></Label>
                             <Entry x:Name="entComment"
-                               WidthRequest="500"></Entry>
+                                   Text="{Binding OperatingRecord.Comment}"
+                               ></Entry>
                         </VerticalStackLayout>
                         <VerticalStackLayout
                         Padding="15">
                             <Button
                             Text="Done"
-                            Clicked="AddRecord"></Button>
+                            Command="{Binding SaveRecordCommand}"/>
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
@@ -126,32 +135,34 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Record">
-                                <Grid RowDefinitions="Auto, Auto"
+                                <Grid RowDefinitions="Auto,Auto"
                                       ColumnDefinitions="*,Auto"
                                       RowSpacing="5"
+                                      ColumnSpacing="5"
                                       Padding="5">
                                     <Label Grid.Row="0"
                                            Grid.Column="0"
-                                           Text="{Binding dateTime}"
-                                           FontAttributes="Bold"/>
+                                           Text="{Binding data, StringFormat='{0:d}'}"/>
                                     <Label Grid.Row="0"
-                                           Grid.Column="1"
+                                           Grid.Column="1"                                           
                                            Text="{Binding Category}"
                                            FontAttributes="Bold"/>
                                     <Label Grid.Row="0"
-                                           Grid.Column="1"
+                                           Grid.Column="2"                                          
                                            Text="{Binding Price, StringFormat='Price: {0}'}"
                                            FontAttributes="Bold"/>
                                     <Label Grid.Row="0"
-                                           Grid.Column="2"
+                                           Grid.Column="3"
                                            Text="{Binding Comment}"
                                            FontAttributes="Bold"/>
                                     <Button Grid.Row="0"
-                                            Grid.Column="3"
+                                            Grid.Column="4"
                                             Text="Delete"
                                             Padding="0"
                                             HeightRequest="25"
-                                            FontSize="12"/>
+                                            FontSize="12"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecordViewModel}}, Path=DeleteRecordCommand}"
+                                            CommandParameter="{Binding Id}"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

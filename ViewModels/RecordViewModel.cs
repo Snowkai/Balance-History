@@ -19,10 +19,10 @@ namespace Balance_History.ViewModels
              _context = context;
         }
         [ObservableProperty]
-        private ObservableCollection<Record> _records;
+        private ObservableCollection<Record> _records = new();
 
         [ObservableProperty]
-        private Record _operatingRecord;
+        private Record _operatingRecord = new ();
 
         [ObservableProperty]
         private bool _isBusy;
@@ -58,6 +58,13 @@ namespace Balance_History.ViewModels
         {
             if(OperatingRecord is null)
             {
+                //return;
+                //SetOperatingRecord(new());
+            }
+            var (IsValied, ErrorMessage) = OperatingRecord.Validate();
+            if (!IsValied) 
+            {
+                await Shell.Current.DisplayAlert("Validation Error", ErrorMessage, "Ok");
                 return;
             }
             var busyText = OperatingRecord.Id == 0 ? "Creating record..." : "Updating record";
@@ -106,6 +113,7 @@ namespace Balance_History.ViewModels
             {
                 await operation?.Invoke();
             }
+            catch(Exception ex) { }
             finally
             { 
                 IsBusy = false;

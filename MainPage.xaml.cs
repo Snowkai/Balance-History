@@ -16,10 +16,6 @@ namespace Balance_History
             pickCategory.ItemsSource = AppData.Categories;
         }
 
-        public MainPage()
-        {
-        }
-
         async private void BackToProfiles(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
