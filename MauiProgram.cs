@@ -1,4 +1,5 @@
 ﻿using Balance_History.src;
+using Balance_History.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace Balance_History
@@ -18,8 +19,12 @@ namespace Balance_History
 
 #if DEBUG
             builder.Logging.AddDebug();
-            builder.Services.AddSingleton<DBActions>();
 #endif
+
+            builder.Services.AddSingleton<DatabaseContex>();
+            builder.Services.AddSingleton<RecordViewModel>();
+            builder.Services.AddSingleton<MainPage>();
+
 
             return builder.Build();
         }

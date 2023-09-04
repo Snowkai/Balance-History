@@ -1,31 +1,31 @@
 ﻿using Balance_History.src;
+using Balance_History.ViewModels;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Balance_History
 {
     public partial class MainPage : ContentPage
     {
-        DBActions db = new DBActions();
-        List<TableModel> tableModels = new List<TableModel>();
-        public MainPage()
+        private readonly RecordViewModel _viewModel;
+        public MainPage(RecordViewModel viewModel)
         {
             InitializeComponent();
-            GetItemsFromDB();
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
             categoryList.ItemsSource = AppData.Categories;
             pickCategory.ItemsSource = AppData.Categories;
         }
 
-        async private void GetItemsFromDB()
+        public MainPage()
         {
-            tableModels = await db.GetItemsAsync();
         }
+
         async private void BackToProfiles(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
         }
 
-        private void AddRecord(object sender, EventArgs e)
+        private void AddRecordMenu(object sender, EventArgs e)
         {
             if (recordView.IsVisible == false)
             {
@@ -66,17 +66,16 @@ namespace Balance_History
             AppData.Categories.Remove(catName);
         }
 
-        private void RecordDone(object sender, EventArgs e)
+        protected async override void OnAppearing()
         {
-            TableModel record = new TableModel();
-            record.dateTime = System.Data.DataSetDateTime.Local;
-            record.Category = pickCategory.SelectedItem.ToString();
-            record.Comment = entComment.Text;
-            record.Price = Decimal.Parse(entPrice.Text);
-            recordView.IsVisible = false;
-            db.SaveItemAsync(record);
-            viewTable.ItemsSource = tableModels;
+            base.OnAppearing();
+            await _viewModel.LoadRecordsAsync();
         }
-    };
+
+        private void AddRecord(object sender, EventArgs e)
+        {
+            _viewModel.SaveRecordCommand.Execute(null);
+        }
+    }
 }
 

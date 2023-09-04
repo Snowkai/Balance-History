@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Balance_History.MainPage">
+             xmlns:vm="clr-namespace:Balance_History.ViewModels"
+             xmlns:models="clr-namespace:Balance_History.Models"
+             x:DataType="vm:RecordViewModel"
+             x:Class="Balance_History.MainPage"
+             Title="Balance History">
 
     <ScrollView>
         <VerticalStackLayout
@@ -9,38 +13,44 @@
             Spacing="0"
             Padding="20"
             VerticalOptions="Start">
-            <HorizontalStackLayout
+            <Border                
+                Padding="5"
+                Stroke="Gray">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8"></RoundRectangle>
+                </Border.StrokeShape>
+                <HorizontalStackLayout
                 x:Name="panel"
                 HorizontalOptions="Fill">
-                <HorizontalStackLayout
+                    <HorizontalStackLayout
                     Margin="0,0,15,0">
-                    <Button
+                        <Button
                         Text="Add Record"
-                        Clicked="AddRecord">
-                    </Button>
-                    <Button
+                        Clicked="AddRecordMenu">
+                        </Button>
+                        <Button
                         Text="Remove Record"></Button>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout
                     Margin="15,0,0,0">
-                    <Button
+                        <Button
                         Text="Category"
                         Clicked="EditCategory"></Button>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout
                     Margin="15,0,0,0">
-                    <Button
+                        <Button
                         Text="Report"></Button>
+                    </HorizontalStackLayout>
                 </HorizontalStackLayout>
-                <HorizontalStackLayout
-                    Margin="15,0,0,0"
-                    HorizontalOptions="End">
-                    <Button
-                        Text="Profiles"
-                        Clicked="BackToProfiles"></Button>
-                </HorizontalStackLayout>
-            </HorizontalStackLayout>
-            <VerticalStackLayout
+            </Border>
+            <Border
+                Stroke="Gray"
+                Padding="5">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8"></RoundRectangle>
+                </Border.StrokeShape>
+                <VerticalStackLayout
                 x:Name="category"
                 IsVisible="false">
                 <HorizontalStackLayout>
@@ -55,44 +65,112 @@
                     WidthRequest="150"
                     Clicked="RemoveCategory"></Button>
                 </HorizontalStackLayout>
-                <ListView x:Name="categoryList"></ListView>
-            </VerticalStackLayout>
-            <VerticalStackLayout
+                <ListView x:Name="categoryList"
+                          ></ListView>
+                </VerticalStackLayout>
+            </Border>
+            <Border
+                Stroke="Gray"
+                Padding="5">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8"></RoundRectangle>
+                </Border.StrokeShape>
+                <VerticalStackLayout
                 x:Name="recordView"
                 IsVisible="false">
-                <HorizontalStackLayout
+                    <HorizontalStackLayout
                     HorizontalOptions="Fill">
-                    <VerticalStackLayout
+                        <VerticalStackLayout
                         Padding="15">
-                        <Label Text="Category"></Label>
-                    <Picker
+                            <Label Text="Category"></Label>
+                            <Picker
                         x:Name="pickCategory"
                         FontAutoScalingEnabled="True"
                         ></Picker>
-                    </VerticalStackLayout>
-                    <VerticalStackLayout
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
                         Padding="15">
-                        <Label Text="Price"></Label>
-                        <Entry
+                            <Label Text="Price"></Label>
+                            <Entry
                             x:Name="entPrice"
                             WidthRequest="100"></Entry>
-                    </VerticalStackLayout>
-                    <VerticalStackLayout
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
                         Padding="15">
-                        <Label Text="Comment"></Label>
-                        <Entry x:Name="entComment"
+                            <Label Text="Comment"></Label>
+                            <Entry x:Name="entComment"
                                WidthRequest="500"></Entry>
-                    </VerticalStackLayout>
-                    <VerticalStackLayout
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
                         Padding="15">
-                        <Button
+                            <Button
                             Text="Done"
-                            Clicked="RecordDone"></Button>
-                    </VerticalStackLayout>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-            <ListView
-                x:Name="viewTable"></ListView>
+                            Clicked="AddRecord"></Button>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+            <Grid RowDefinitions="Auto, *">
+                <Label 
+                   Grid.Row="0"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Text="Data"/>
+                <Grid Grid.Row="1"
+                      RowDefinitions="*, Auto">
+                    <CollectionView Grid.Row="1"
+                                    ItemsSource="{Binding Records}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10"
+                                               Orientation="Vertical"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Record">
+                                <Grid RowDefinitions="Auto, Auto"
+                                      ColumnDefinitions="*,Auto"
+                                      RowSpacing="5"
+                                      Padding="5">
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="{Binding dateTime}"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text="{Binding Category}"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text="{Binding Price, StringFormat='Price: {0}'}"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="2"
+                                           Text="{Binding Comment}"
+                                           FontAttributes="Bold"/>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="3"
+                                            Text="Delete"
+                                            Padding="0"
+                                            HeightRequest="25"
+                                            FontSize="12"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <VerticalStackLayout HorizontalOptions="Center"
+                                                     VerticalOptions="Center">
+                                    <Label Text="No Records Found"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Label Text="Try create record"
+                                           HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </Grid>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 
