@@ -1,6 +1,5 @@
 ﻿using Balance_History.src;
 using Balance_History.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace Balance_History
 {
@@ -54,7 +53,7 @@ namespace Balance_History
         private async void RemoveCategory(object sender, EventArgs e)
         {
             string[] cat = new string[AppData.Categories.Count];
-            for(int i = 0; i < cat.Length; i++)
+            for (int i = 0; i < cat.Length; i++)
             {
                 cat[i] = AppData.Categories[i];
             }
@@ -71,6 +70,15 @@ namespace Balance_History
         private void AddRecord(object sender, EventArgs e)
         {
             _viewModel.SaveRecordCommand.Execute(null);
+        }
+
+        private async void CheckSymbol(object sender, TextChangedEventArgs e)
+        {
+            var str = Convert.ToString(sender);
+            if (false == decimal.TryParse(entPrice.Text, out var result))
+            {
+                await DisplayAlert("Price Error", "Price should be number.", "Ok");
+            }
         }
     }
 }

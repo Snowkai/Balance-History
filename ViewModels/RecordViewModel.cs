@@ -2,12 +2,7 @@
 using Balance_History.src;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Balance_History.ViewModels
 {
@@ -16,20 +11,20 @@ namespace Balance_History.ViewModels
         private readonly DatabaseContex _context;
         public RecordViewModel(DatabaseContex context)
         {
-             _context = context;
+            _context = context;
         }
         [ObservableProperty]
         private ObservableCollection<Record> _records = new();
 
         [ObservableProperty]
-        private Record _operatingRecord = new ();
+        private Record _operatingRecord = new();
 
         [ObservableProperty]
         private bool _isBusy;
 
         [ObservableProperty]
         private string _busyText;
-        
+
         public async Task LoadRecordsAsync()
         {
             await ExecuteAsync(async () =>
@@ -56,13 +51,13 @@ namespace Balance_History.ViewModels
         [RelayCommand]
         private async Task SaveRecordAsync()
         {
-            if(OperatingRecord is null)
+            if (OperatingRecord is null)
             {
                 //return;
                 //SetOperatingRecord(new());
             }
             var (IsValied, ErrorMessage) = OperatingRecord.Validate();
-            if (!IsValied) 
+            if (!IsValied)
             {
                 await Shell.Current.DisplayAlert("Validation Error", ErrorMessage, "Ok");
                 return;
@@ -105,7 +100,7 @@ namespace Balance_History.ViewModels
             }, "Deleting record...");
         }
 
-        private async Task ExecuteAsync(Func<Task> operation, string? busyText = null) 
+        private async Task ExecuteAsync(Func<Task> operation, string? busyText = null)
         {
             IsBusy = true;
             BusyText = busyText ?? "Processing...";
@@ -113,9 +108,9 @@ namespace Balance_History.ViewModels
             {
                 await operation?.Invoke();
             }
-            catch(Exception ex) { }
+            catch (Exception ex) { }
             finally
-            { 
+            {
                 IsBusy = false;
                 BusyText = "Processing...";
             }

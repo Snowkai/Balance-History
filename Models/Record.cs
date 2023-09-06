@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Data;
 
 namespace Balance_History.Models
 {
@@ -7,7 +6,14 @@ namespace Balance_History.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public DateTime Data { get; set; }
+        public DateTime Data
+        {
+            get
+            {
+                return Data = DateTime.Now;
+            }
+            set { }
+        }
         public string Category { get; set; }
         public decimal Price { get; set; }
         public string Comment { get; set; }
@@ -19,7 +25,8 @@ namespace Balance_History.Models
             if (string.IsNullOrWhiteSpace(Category))
             {
                 return (false, $"{nameof(Category)} is requared");
-            } else if (Price < 0 ) 
+            }
+            else if (Price < 0)
             {
                 return (false, $"{nameof(Price)} less then 0");
             }

@@ -1,11 +1,5 @@
-﻿using Balance_History.Models;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SQLite;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Balance_History.src
 {
@@ -14,13 +8,46 @@ namespace Balance_History.src
         private const string DbName = "BHDatabase.db3";
         private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
         private SQLiteAsyncConnection _connection;
+
+        /* Unmerged change from project 'Balance History (net7.0-windows10.0.19041.0)'
+        Before:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        After:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        */
+
+        /* Unmerged change from project 'Balance History (net7.0-maccatalyst)'
+        Before:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        After:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        */
+
+        /* Unmerged change from project 'Balance History (net7.0-ios)'
+        Before:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        After:
+                private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+                private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
+        */
         private SQLiteAsyncConnection Database => (_connection ??= new SQLiteAsyncConnection(DbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
-        
+
         private async Task CreateTableIfNotExist<TTable>() where TTable : class, new()
         {
             await Database.CreateTableAsync<TTable>();
         }
-        private async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable: class, new()
+        private async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable : class, new()
         {
             await CreateTableIfNotExist<TTable>();
             return Database.Table<TTable>();
