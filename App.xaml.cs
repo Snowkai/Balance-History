@@ -1,4 +1,7 @@
-﻿namespace Balance_History
+﻿using Balance_History.src;
+using System.Text.Json;
+
+namespace Balance_History
 {
     public partial class App : Application
     {
@@ -8,6 +11,5 @@
 
             MainPage = new AppShell();
         }
-        
     }
 }

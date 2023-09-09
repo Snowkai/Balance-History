@@ -2,7 +2,12 @@
 using Balance_History.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace Balance_History
 {
@@ -18,6 +23,40 @@ namespace Balance_History
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
+                .ConfigureLifecycleEvents(events =>
+                {
+                    events.AddWindows(windows => windows
+                    .OnActivated(async (windows, args) =>
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\appdata.json";
+                        if (File.Exists(path) == true)
+                        {
+                            SaveJsonToDisk data = new SaveJsonToDisk();
+                            using (FileStream reader = new FileStream(path, FileMode.Open, FileAccess.Read))
+                            {
+                                data = JsonSerializer.Deserialize<SaveJsonToDisk>(reader);                                
+                            }
+                            AppData.ConvertToObserver(data.Categories);
+                        }
+                        else
+                        {
+                            AppData.SetDefault();
+                        }
+                    })
+                    .OnClosed(async (windows, args) =>
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\appdata.json";
+                        SaveJsonToDisk sd = new SaveJsonToDisk();
+                        sd.Categories = AppData.ConvertToList(AppData.Categories);
+                        var saveData = JsonSerializer.Serialize(sd);
+                        using (FileStream writer = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                        {
+                            byte[] buffer = Encoding.UTF8.GetBytes(saveData);
+                            await writer.WriteAsync(buffer, 0, buffer.Length);
+                        }
+                    }));
+                });
+
             
 #if DEBUG
             builder.Logging.AddDebug();
@@ -26,30 +65,10 @@ namespace Balance_History
             builder.Services.AddSingleton<DatabaseContex>();
             builder.Services.AddSingleton<RecordViewModel>();
             builder.Services.AddSingleton<MainPage>();
-
             
+
             return builder.Build();
         }
 
-
-        private static async void SaveAppData()
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Open("category.dat", FileMode.OpenOrCreate)))
-            {
-                foreach (var cat in AppData.Categories)
-                {
-                    writer.Write(cat);
-                }
-            }
-        }
-        private static async void ReadAppData()
-        {
-            using(BinaryReader reader = new BinaryReader(File.Open("category.dat", FileMode.Open)))
-            {
-                while(reader.PeekChar() > -1) {
-                AppData.Categories.Add(reader.ReadString());
-                }
-            }
-        }
     }
 }
