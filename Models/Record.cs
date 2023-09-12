@@ -20,7 +20,9 @@ namespace Balance_History.Models
 
         public Record Clone() => MemberwiseClone() as Record;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public (bool IsValid, string? ErrorMessage) Validate()
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
             if (string.IsNullOrWhiteSpace(Category))
             {

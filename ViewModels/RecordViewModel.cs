@@ -35,18 +35,19 @@ namespace Balance_History.ViewModels
                     if (records is null)
                     {
                         Records ??= new ObservableCollection<Record>();
-
-                        foreach (var record in records)
-                        {
-                            Records.Add(record);
-                        }
+                    }
+                    foreach (var record in records)
+                    {
+                        Records.Add(record);
                     }
                 }
             }, "Fetching records...");
         }
 
         [RelayCommand]
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         private void SetOperatingRecord(Record? record) => OperatingRecord = record ?? new();
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         [RelayCommand]
         private async Task SaveRecordAsync()
@@ -100,15 +101,19 @@ namespace Balance_History.ViewModels
             }, "Deleting record...");
         }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         private async Task ExecuteAsync(Func<Task> operation, string? busyText = null)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
             IsBusy = true;
             BusyText = busyText ?? "Processing...";
+#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 await operation?.Invoke();
             }
             catch (Exception ex) { }
+#pragma warning restore CS0168 // Variable is declared but never used
             finally
             {
                 IsBusy = false;

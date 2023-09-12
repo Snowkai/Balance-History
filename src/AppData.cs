@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Balance_History.src
 {
@@ -9,12 +7,12 @@ namespace Balance_History.src
     internal static class AppData
     {
         [JsonProperty]
-        public static ObservableCollection<string> Categories =new ObservableCollection<string>();
+        public static ObservableCollection<string> Categories = new ObservableCollection<string>();
         private static List<string> ListOfDefaultCategories = new List<string>() { "Food", "Transport", "Mobile", "Internet", "Entertaiment" };
 
         public static void ConvertToObserver(List<string> list)
         {
-            foreach(string category in list)
+            foreach (string category in list)
             {
                 Categories.Add(category);
             }
@@ -22,7 +20,7 @@ namespace Balance_History.src
         public static List<string> ConvertToList(ObservableCollection<string> collection)
         {
             var list = new List<string>();
-            foreach(string category in collection)
+            foreach (string category in collection)
             {
                 list.Add(category);
             }

@@ -61,7 +61,7 @@ namespace Balance_History
             AppData.Categories.Remove(catName);
         }
 
-        protected async override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             await _viewModel.LoadRecordsAsync();

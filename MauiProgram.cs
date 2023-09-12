@@ -2,12 +2,9 @@
 using Balance_History.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Xml.Serialization;
 
 namespace Balance_History
 {
@@ -25,8 +22,9 @@ namespace Balance_History
                 })
                 .ConfigureLifecycleEvents(events =>
                 {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
                     events.AddWindows(windows => windows
-                    .OnActivated(async (windows, args) =>
+                    .OnLaunching(async (windows, args) =>
                     {
                         string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\appdata.json";
                         if (File.Exists(path) == true)
@@ -34,7 +32,7 @@ namespace Balance_History
                             SaveJsonToDisk data = new SaveJsonToDisk();
                             using (FileStream reader = new FileStream(path, FileMode.Open, FileAccess.Read))
                             {
-                                data = JsonSerializer.Deserialize<SaveJsonToDisk>(reader);                                
+                                data = JsonSerializer.Deserialize<SaveJsonToDisk>(reader);
                             }
                             AppData.ConvertToObserver(data.Categories);
                         }
@@ -55,9 +53,10 @@ namespace Balance_History
                             await writer.WriteAsync(buffer, 0, buffer.Length);
                         }
                     }));
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
                 });
 
-            
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
@@ -65,7 +64,7 @@ namespace Balance_History
             builder.Services.AddSingleton<DatabaseContex>();
             builder.Services.AddSingleton<RecordViewModel>();
             builder.Services.AddSingleton<MainPage>();
-            
+
 
             return builder.Build();
         }

@@ -1,12 +1,14 @@
 ﻿using SQLite;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Balance_History.src
 {
     public class DatabaseContex : IAsyncDisposable
     {
         private const string DbName = "BHDatabase.db3";
-        private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
+        private static string DbPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + DbName;
+        //private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
         private SQLiteAsyncConnection _connection;
 
         /* Unmerged change from project 'Balance History (net7.0-windows10.0.19041.0)'

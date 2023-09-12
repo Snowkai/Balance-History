@@ -124,7 +124,8 @@
                    Text="Data"/>
                 <Grid Grid.Row="1"
                       RowDefinitions="*, Auto">
-                    <CollectionView Grid.Row="1"
+                    <CollectionView x:Name="recordsView"
+                                    Grid.Row="1"
                                     ItemsSource="{Binding Records}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout ItemSpacing="10"
@@ -175,13 +176,13 @@
                         <CollectionView.EmptyView>
                             <ContentView>
                                 <VerticalStackLayout HorizontalOptions="Center"
-                                                     VerticalOptions="Center">
+                             VerticalOptions="Center">
                                     <Label Text="No Records Found"
-                                           FontSize="18"
-                                           FontAttributes="Bold"
-                                           HorizontalTextAlignment="Center"/>
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
                                     <Label Text="Try create record"
-                                           HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Center"/>
                                 </VerticalStackLayout>
                             </ContentView>
                         </CollectionView.EmptyView>
